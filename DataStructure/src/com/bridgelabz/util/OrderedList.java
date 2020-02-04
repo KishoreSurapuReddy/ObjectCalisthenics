@@ -12,6 +12,7 @@ public class OrderedList<T> {
 	Node<Integer> tail;
 	public int size = 0;
 	public Scanner scanner = new Scanner(System.in);
+	
 	/**function for inserting element at particular position in the list
 	 * @param <T>
 	 * @param position
@@ -114,11 +115,11 @@ public class OrderedList<T> {
 			list.removeOrderedElement(num);
 			System.out.println("found and removed");
 			System.out.println(list);
-		} else {
-			list.addOrderedElement(num);
-			System.out.println("number not found hence added");
-			list.printList();
+			return;
 		}
+		list.addOrderedElement(num);
+		System.out.println("number not found hence added");
+		list.printList();
 	}
 
 	/**
@@ -244,23 +245,24 @@ public class OrderedList<T> {
 			head = (Node<Integer>) new_node;
 			head.next = (Node<Integer>) tail;
 			tail = (Node<Integer>) head;
+			return;
 		} else if (((Comparable<T>) data).compareTo((T) head.data) < 0) {
 			new_node.next = (Node<T>) head;
 			head = (Node<Integer>) new_node;
-		} else {
-			if (((Comparable<T>) data).compareTo((T) tail.data) > 0) {
-				tail.next = (Node<Integer>) new_node;
-				tail = (Node<Integer>) new_node;
-				return;
-			}
-			Node<T> prev = null;
-			while (((Comparable<T>) data).compareTo((T) node.data) > 0 && node.next != null) {
-				prev = node;
-				node = node.next;
-			}
-			prev.next = new_node;
-			new_node.next = node;
+			return;
 		}
+		if (((Comparable<T>) data).compareTo((T) tail.data) > 0) {
+			tail.next = (Node<Integer>) new_node;
+			tail = (Node<Integer>) new_node;
+			return;
+		}
+		Node<T> prev = null;
+		while (((Comparable<T>) data).compareTo((T) node.data) > 0 && node.next != null) {
+			prev = node;
+			node = node.next;
+		}
+		prev.next = new_node;
+		new_node.next = node;
 	}
 
 	/**
