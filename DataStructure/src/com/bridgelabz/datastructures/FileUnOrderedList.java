@@ -27,11 +27,11 @@ public class FileUnOrderedList {
 			FileWriter filewriter = new FileWriter(file);
 			System.out.println("the size of list :" + list.sizeOfList());
 			System.out.println("enter the word to search :");
-			String find = list.scanner.nextLine();
+			String findElement = list.scanner.nextLine();
 			// taking the user input element for searching in list
-			if (list.searchElement(find)) {
+			if (list.searchElement(findElement)) {
 				// if u find the element it will return
-				list.removeElement(find);
+				list.removeElement(findElement);
 				// it will remove the element from the list
 				int n = 0;
 				while (n < list.sizeOfList()) {
@@ -43,7 +43,7 @@ public class FileUnOrderedList {
 				}
 				System.out.println("item was founded and deleted ");
 			} else {
-				list.addElement(find);
+				list.addElement(findElement);
 				// if the element not found in the list it will add to
 				// the list
 				int n = 0;
