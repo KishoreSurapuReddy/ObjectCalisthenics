@@ -9,8 +9,6 @@ package com.bridgelabz.util;
 public class Stack<T> {
 	Node<T> top;
 	int size = 0;
-	int push = 0;
-	int pop = 0;
 
 	public Stack() {
 		top = null;
@@ -37,24 +35,28 @@ public class Stack<T> {
 	 * function to implement pop the element from the stack
 	 * @param character
 	 * @return pop element
+	 * @throws Exception 
 	 */
-	@SuppressWarnings("unused")
-	public void popCharacter() {
-		Node<T> current;
+	public T popCharacter(T character){
+		Node<T> current = top;
+		Node<T> previous = top;
 		if (isEmptyStack()) {
-			System.out.println("stack is empty and we can not pop ");
+			throw new NullPointerException("stack is empty");
 		}
-		while (top != null) {
-			System.out.println(top.data);
-			if (top.data.equals('(')) {
-				push++;
-			} else {
-				pop++;
-			}
-			current = top;
-			top = top.next;
-			current = null;
+		T element = null;
+		current = top;
+		while (current.data != character) {
+			System.out.println(current.data);
+			previous = current;
+			current = current.next;
 		}
+		if(top.data == character) {
+			element = current.data;
+			previous.next = current.next;
+			size--;
+			return element;
+		}
+		return element;
 	}
 
 	/**
@@ -62,8 +64,7 @@ public class Stack<T> {
 	 */
 	public T peekStack() {
 		if (top == null) {
-			System.out.println("stack is empty");
-			return null;
+			throw new NullPointerException("stack is empty");
 		}
 		return top.data;
 	}
@@ -85,13 +86,5 @@ public class Stack<T> {
 			return true;
 		}
 		return false;
-	}
-
-	public boolean balancedStack() {
-		boolean isbalanced = false;
-		if (push == pop) {
-			isbalanced = true;
-		}
-		return isbalanced;
 	}
 }
