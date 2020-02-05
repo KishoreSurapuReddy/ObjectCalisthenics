@@ -5,39 +5,32 @@
  * @file OrderedList.java
 */
 package com.bridgelabz.util;
-import java.util.Scanner;
 
 public class OrderedList<T> {
-	Node<Integer> head;
-	Node<Integer> tail;
+	Node<T> head;
+	Node<T> tail;
 	public int size = 0;
-	public Scanner scanner = new Scanner(System.in);
 	
 	/**function for inserting element at particular position in the list
 	 * @param <T>
 	 * @param position
 	 * @param data
 	 */
-	@SuppressWarnings({ "hiding" })
-	public <T> void insertParticularPosition(int position, T data) {
-		if (position > size || position < 0) {
-			System.out.println("we can not insert at this position ");
-			return;
-		}
+	public void insertParticularPosition(int position, T data) {
 		int index = 0;
-		Node<Integer> node =  (Node<Integer>) head;
-		Node<Integer> new_node = new Node<Integer>((Integer) data);
+		Node<T> node =  (Node<T>) head;
+		Node<T> newNode = new Node<T>(data);
 		if (head == null) {
-			new_node.next = (Node<Integer>) head;
-			head = new_node;
+			newNode.next = (Node<T>) head;
+			head = (Node<T>) newNode;
 			return;
 		}
 		while (position != index) {
 			node = node.next;
 			index++;
 		}
-		new_node.next = node.next;
-		node.next = new_node;
+		newNode.next = node.next;
+		node.next = newNode;
 	}
 
 	/**
@@ -53,7 +46,6 @@ public class OrderedList<T> {
 	 * 
 	 * @return toString
 	 */
-	@SuppressWarnings("unchecked")
 	public String toString() {
 		StringBuffer stringbuffer = new StringBuffer();
 		Node<T> node = (Node<T>) head;
@@ -78,7 +70,6 @@ public class OrderedList<T> {
 	 * function for know weather list is empty or not
 	 * @return empty or not
 	 */
-	@SuppressWarnings("unchecked")
 	public boolean isListEmpty() {
 		Node<T> node = (Node<T>) head;
 		if (node == null) {
@@ -110,7 +101,7 @@ public class OrderedList<T> {
 	 * @param num
 	 * @param util
 	 */
-	public static void addRemove(int num, OrderedList<Integer> list) {
+	public  void addRemove(int num, OrderedList<Integer> list) {
 		if (list.searchElement(num)) {
 			list.removeOrderedElement(num);
 			System.out.println("found and removed");
@@ -127,11 +118,10 @@ public class OrderedList<T> {
 	 * @param <T>
 	 * @param data
 	 */
-	@SuppressWarnings({ "hiding", "unchecked" })
-	public <T> void addElement(T data) {
-		Node<Integer> new_node = new Node<Integer>((Integer) data);
+	public void addElement(T data) {
+		Node<T> new_node = new Node<T>(data);
 		if (head == null) {
-			head = new_node;
+			head = (Node<T>) new_node;
 			size++;
 			return;
 		}
@@ -148,7 +138,7 @@ public class OrderedList<T> {
 	 * @param <T>
 	 * @param find
 	 */
-	@SuppressWarnings({ "hiding", "unchecked" })
+	@SuppressWarnings({ "hiding", "unchecked", "unlikely-arg-type" })
 	public <T> void removeElement(T find) {
 		Node<T> node = (Node<T>) head;
 		Node<T> previous = null;
@@ -164,7 +154,6 @@ public class OrderedList<T> {
 		previous.next = node;
 		node = null;
 		size -= 1;
-
 	}
 
 	/**
@@ -173,7 +162,6 @@ public class OrderedList<T> {
 	 * @param position
 	 * @return pop element
 	 */
-	@SuppressWarnings("unchecked")
 	public T pop(int position) {
 		int index = 0;
 		Node<T> node = (Node<T>) head;
@@ -197,7 +185,6 @@ public class OrderedList<T> {
 	 * function for removing the last index element of list
 	 * @return pop element
 	 */
-	@SuppressWarnings("unchecked")
 	public T pop() {
 		Node<T> node = (Node<T>) head;
 		if (size == 1) {
@@ -219,7 +206,6 @@ public class OrderedList<T> {
 	 * @param find
 	 * @return if it is present or not
 	 */
-	@SuppressWarnings("unchecked")
 	public boolean searchElement(T find) {
 		Node<T> node = (Node<T>) head;
 		while (node != null) {
@@ -236,24 +222,24 @@ public class OrderedList<T> {
 	 * @param <T>
 	 * @param data the item which to be added
 	 */
-	@SuppressWarnings({ "unchecked", "hiding" })
-	public <T> void addOrderedElement(T data) {
+	@SuppressWarnings({ "unchecked" })
+	public  void addOrderedElement(T data) {
 		Node<T> node = (Node<T>) head;
 		Node<T> new_node = new Node<T>(data);
 		size++;
 		if (head == null) {
-			head = (Node<Integer>) new_node;
-			head.next = (Node<Integer>) tail;
-			tail = (Node<Integer>) head;
+			head = (Node<T>) new_node;
+			head.next = (Node<T>) tail;
+			tail = (Node<T>) head;
 			return;
 		} else if (((Comparable<T>) data).compareTo((T) head.data) < 0) {
 			new_node.next = (Node<T>) head;
-			head = (Node<Integer>) new_node;
+			head = (Node<T>) new_node;
 			return;
 		}
 		if (((Comparable<T>) data).compareTo((T) tail.data) > 0) {
-			tail.next = (Node<Integer>) new_node;
-			tail = (Node<Integer>) new_node;
+			tail.next = (Node<T>) new_node;
+			tail = (Node<T>) new_node;
 			return;
 		}
 		Node<T> prev = null;
@@ -270,8 +256,7 @@ public class OrderedList<T> {
 	 * @param <T>
 	 * @param item
 	 */
-	@SuppressWarnings({ "hiding", "unchecked" })
-	public <T> void removeOrderedElement(T item) {
+	public  void removeOrderedElement(T item) {
 		Node<T> node = (Node<T>) head;
 		Node<T> prev = null;
 		if (head.data.equals(item)) {
@@ -283,7 +268,7 @@ public class OrderedList<T> {
 				node = node.next;
 			}
 			node.next = null;
-			tail = (Node<Integer>) node;
+			tail = (Node<T>) node;
 			return;
 		}
 		while (!node.data.equals(item)) {
