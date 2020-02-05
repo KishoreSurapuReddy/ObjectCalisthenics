@@ -5,29 +5,22 @@
  * @file UnOrderedList.java
 */
 package com.bridgelabz.util;
-import java.util.Scanner;
 
 public class UnOrderedList<T> {
-	Node<String> head;
+	Node<T> head;
 	public int size = 0;
-	public Scanner scanner = new Scanner(System.in);
 
 	/**function for inserting element at particular position in the list
 	 * @param <T>
 	 * @param position
 	 * @param data
 	 */
-	@SuppressWarnings({ "hiding" })
-	public <T> void insertParticularPosition(int position, T data) {
-		if (position > size || position < 0) {
-			System.out.println("we can not insert at this position ");
-			return;
-		}
+	public void insertParticularPosition(int position, T data) {
 		int index = 0;
-		Node<String> node = (Node<String>) head;
-		Node<String> new_node =  new Node<String>((String) data);
+		Node<T> node = (Node<T>) head;
+		Node<T> new_node =  new Node<T>(data);
 		if (head == null) {
-			new_node.next = (Node<String>) head;
+			new_node.next = (Node<T>) head;
 			head = new_node;
 			return;
 		}
@@ -49,7 +42,6 @@ public class UnOrderedList<T> {
 	/**function for reading the data from list 
 	 * @return toString
 	 */
-	@SuppressWarnings("unchecked")
 	public String toString() {
 		StringBuffer stringbuffer = new StringBuffer();
 		Node<T> node = (Node<T>) head;
@@ -71,7 +63,6 @@ public class UnOrderedList<T> {
 	/** function for know weather list is empty or not
 	 * @return empty or not
 	 */
-	@SuppressWarnings("unchecked")
 	public boolean isListEmpty() {
 		Node<T> node = (Node<T>) head;
 		if (node == null) {
@@ -99,11 +90,10 @@ public class UnOrderedList<T> {
 	/**function for adding elements to list at end position
 	 * @param data
 	 */
-	@SuppressWarnings("unchecked")
 	public void addElement(T data) {
 		Node<T> new_node = new Node<T>(data);
 		if (head == null) {
-			head = (Node<String>) new_node;
+			head = (Node<T>) new_node;
 			size++;
 			return;
 		}
@@ -118,7 +108,6 @@ public class UnOrderedList<T> {
 	/**function for removing particular element
 	 * @param find
 	 */
-	@SuppressWarnings("unchecked")
 	public void removeElement(T find) {
 		Node<T> node = (Node<T>) head;
 		Node<T> previous = null;
@@ -140,7 +129,6 @@ public class UnOrderedList<T> {
 	 * @param position
 	 * @return pop element
 	 */
-	@SuppressWarnings("unchecked")
 	public T pop(int position) {
 		int index = 0;
 		Node<T> node = (Node<T>) head;
@@ -163,7 +151,6 @@ public class UnOrderedList<T> {
 	/**function for removing the last index element of list
 	 * @return pop element
 	 */
-	@SuppressWarnings("unchecked")
 	public T pop() {
 		Node<T> node = (Node<T>) head;
 		if (size == 1) {
@@ -184,7 +171,6 @@ public class UnOrderedList<T> {
 	 * @param find
 	 * @return if it is present or not
 	 */
-	@SuppressWarnings("unchecked")
 	public boolean searchElement(T find) {
 		Node<T> node = (Node<T>) head;
 		while (node != null) {
