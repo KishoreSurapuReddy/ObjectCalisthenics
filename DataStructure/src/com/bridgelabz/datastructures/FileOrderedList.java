@@ -5,16 +5,19 @@
  * @file FileOrderedList.java
 */
 package com.bridgelabz.datastructures;
+import java.util.Scanner;
+
 import com.bridgelabz.util.OrderedList;
 
 public class FileOrderedList {
 
 	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
 		OrderedList<Integer> list = new OrderedList<Integer>();
 		int number = 0;
 		try {
 			System.out.println("enter the number how many numbers want to add :");
-			number = list.scanner.nextInt();
+			number = scanner.nextInt();
 		} catch (Exception e) {
 			System.out.println("enter in digits only...");
 		}
@@ -22,7 +25,7 @@ public class FileOrderedList {
 		for (int index = 0; index < number; index++) {
 			System.out.println("enter " + index + " no");
 			try {
-				list.addOrderedElement(list.scanner.nextInt());
+				list.addOrderedElement(scanner.nextInt());
 			} catch (Exception e) {
 				System.out.println("enter only int type of data...");
 			}
@@ -33,12 +36,12 @@ public class FileOrderedList {
 		int searchnum = 0;
 		try {
 			System.out.println("enter number to search :");
-			searchnum = list.scanner.nextInt();
+			searchnum = scanner.nextInt();
 		} catch (Exception e) {
 			System.out.println("enter only int type of data...");
 		}
 		// calling function for adding and removing elements from list
-		OrderedList.addRemove(searchnum, list);
-		list.scanner.close();
+		list.addRemove(searchnum, list);
+		scanner.close();
 	}
 }
