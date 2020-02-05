@@ -17,6 +17,7 @@ public class FileUnOrderedList {
 
 	public static void main(String[] args) {
 		UnOrderedList<String> list = new UnOrderedList<String>();
+		Scanner scanner = new Scanner(System.in);
 		try {
 			File file = new File("/home/user/Desktop/unorderedlist.txt");
 			Scanner scannerfile = new Scanner(file);
@@ -27,7 +28,7 @@ public class FileUnOrderedList {
 			FileWriter filewriter = new FileWriter(file);
 			System.out.println("the size of list :" + list.sizeOfList());
 			System.out.println("enter the word to search :");
-			String findElement = list.scanner.nextLine();
+			String findElement = scanner.nextLine();
 			// taking the user input element for searching in list
 			if (list.searchElement(findElement)) {
 				// if u find the element it will return
@@ -54,7 +55,7 @@ public class FileUnOrderedList {
 				}
 				System.out.println("item was added ");
 			}
-			list.scanner.close();
+			scanner.close();
 			scannerfile.close();
 			filewriter.close();
 		} catch (FileNotFoundException e) {
