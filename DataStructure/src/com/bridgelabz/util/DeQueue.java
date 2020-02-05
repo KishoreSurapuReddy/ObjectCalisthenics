@@ -5,7 +5,6 @@
  * @file DeQueueList.java
 */
 package com.bridgelabz.util;
-import java.util.Scanner;
 
 public class DeQueue<T> {
 	Node<T> left, right;
@@ -17,7 +16,6 @@ public class DeQueue<T> {
 		left = right = null;
 	}
 
-	public Scanner scanner = new Scanner(System.in);
 	/** function to implement add character to dequeue in rear end
 	 * @param data
 	 */
@@ -54,8 +52,7 @@ public class DeQueue<T> {
 	public T removeFront() {
 		Node<T> prevnode;
 		if (left == null) {
-			System.out.println("dequeue is empty ");
-			return null;
+			throw new NullPointerException("queue is empty");
 		}
 		System.out.println(left.data);
 		T charcter = (T) left.data;
@@ -71,8 +68,7 @@ public class DeQueue<T> {
 	public T removeRear() {
 		Node<T> prevnode;
 		if (right == null) {
-			System.out.println("deQueue is empty");
-			return null;
+			throw new NullPointerException("queue is empty");
 		}
 		System.out.println(right.data);
 		T character = (T) right.data;
@@ -98,28 +94,5 @@ public class DeQueue<T> {
 			isDeQueue = true;
 		}
 		return isDeQueue;
-	}
-
-	/**funcrtion to implement given string is palindrome or not
-	 * @return boolean isPalindrome
-	 */
-	public boolean isPalindrome() {
-		Character name1 = ' ';
-		Character name2 = ' ';
-		boolean ispalindrome = false;
-		int size = deQueueSize();
-		if (size % 2 == 0) {
-			while (size != 0) {
-				name1 = (Character) removeFront();
-				name2 = (Character) removeRear();
-				size--;
-			}
-			if (name1.equals(name2)) {
-				ispalindrome = true;
-			}
-		} else if (size % 2 == 1) {
-			System.out.println("deque contains insufficient  character ");
-		}
-		return ispalindrome;
 	}
 }
