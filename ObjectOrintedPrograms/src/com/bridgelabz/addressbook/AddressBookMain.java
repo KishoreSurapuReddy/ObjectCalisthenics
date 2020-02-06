@@ -1,6 +1,7 @@
 package com.bridgelabz.addressbook;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 import org.json.simple.parser.ParseException;
 
@@ -8,7 +9,7 @@ import org.json.simple.parser.ParseException;
 public class AddressBookMain {
 	
 	AddressBookDAOImpl addressbook = new AddressBookDAOImpl();
-	//Person select1;
+	Scanner scanner = new Scanner(System.in);
 	
 	public void menu() throws IOException, ParseException {
 		System.out.println("------------------------");
@@ -38,19 +39,19 @@ public class AddressBookMain {
 				String firstName = null;
 				try {
 					System.out.println("enter the first name :");
-					firstName = addressbook.scanner.next();
+					firstName = scanner.nextLine();
 					System.out.println("enter last name :");
-					String lastName = addressbook.scanner.next();
+					String lastName = scanner.nextLine();
 					System.out.println("enter address :");
-					String address = addressbook.scanner.next();
+					String address = scanner.nextLine();
 					System.out.println("enter city :");
-					String city = addressbook.scanner.next();
+					String city = scanner.nextLine();
 					System.out.println("enter state :");
-					String state = addressbook.scanner.next();
+					String state = scanner.nextLine();
 					System.out.println("enter zipcode :");
-					int zipCode = addressbook.scanner.nextInt();
+					int zipCode = scanner.nextInt();
 					System.out.println("enter phonenumber :");
-					long phoneNumber = addressbook.scanner.nextLong();
+					long phoneNumber = scanner.nextLong();
 					person = new Person(firstName, lastName, address, city, state, zipCode, phoneNumber);
 				} catch (Exception e1) {
 					System.out.println("enter correct type of data... ");
@@ -69,7 +70,7 @@ public class AddressBookMain {
 			String name = null;
 			try {
 				System.out.println("enter the first name to which record to modify:");
-				name = addressbook.scanner.next();
+				name = scanner.next();
 			} catch (Exception e) {
 				System.out.println("enter string type of data...");
 			}
@@ -88,7 +89,9 @@ public class AddressBookMain {
 			menu();
 			break;
 		case 4:
-			addressbook.saveAddressBook();
+			System.out.println("enter the name of addressbook to save :");
+			String addressBookName = scanner.next();
+			addressbook.saveAddressBook(addressBookName);
 			menu();
 			break;
 		case 5:
@@ -111,8 +114,12 @@ public class AddressBookMain {
 		}
 	}
 
-	public static void main(String[] args) throws IOException, ParseException {
+	public static void main(String[] args) throws IOException {
 		AddressBookMain address = new AddressBookMain();
-		address.menu();
+		try {
+			address.menu();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 }
