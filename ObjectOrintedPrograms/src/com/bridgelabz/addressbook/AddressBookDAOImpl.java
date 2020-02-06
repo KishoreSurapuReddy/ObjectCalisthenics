@@ -7,20 +7,26 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+@JsonSerialize 
 public class AddressBookDAOImpl implements AddressBookDAO {
 	Scanner scanner = new Scanner(System.in);
 	String addressFile = "/home/user/Desktop/addressbook.json";
 	
-	@Override
 	public void addPerson(Person person, String firstName) throws IOException, ParseException {
 		ObjectMapper mapper = new ObjectMapper();
+		mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker().
+				withFieldVisibility(JsonAutoDetect.Visibility.ANY).withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+				                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+				                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
 		String jsoninstring = null;
 		try {
 			jsoninstring = mapper.writeValueAsString(person);
@@ -42,10 +48,8 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 		String fileReader = addressFile;
 		JSONObject jsonobject = readFile(fileReader);
 		JSONArray array = new JSONArray();
-		JSONObject personDeatils = new JSONObject();
-		personDeatils.put(firstName, jsoninstring);
-		array.add(personDeatils);
-		jsonobject.put("AddressBook",array);
+		array.add(jsoninstring);
+		jsonobject.put(firstName, array);
 		writeFile(addressFile, jsonobject);
 	}
 
@@ -66,7 +70,7 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 			JSONObject jsonobject = readFile(fileReader);
 			if (jsonobject.get(firstName) != null) {
 				JSONArray jsonarray = (JSONArray) jsonobject.get(firstName);
-				JSONObject json = (JSONObject) jsonarray.get(0);
+				JSONObject json = (JSONObject) new JSONParser().parse((String) jsonarray.get(0));
 				json.forEach((key, value) -> {
 					if (!key.equals(firstName)) {
 						System.out.println(key + "\t\t" + value);
@@ -89,11 +93,12 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 				});
 				System.out.println("after change :");
 				json.forEach((key, value) -> System.out.println(key + "\t\t" + value));
+				jsonarray.add(json);
+				jsonobject.put(firstName, jsonarray);
 				String filewriter = addressFile;
-				writeFile(filewriter, json);
+				writeFile(filewriter, jsonobject);
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -107,24 +112,20 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 			try {
 				jsonarray = (JSONArray) jsonobject.get(firstname);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			System.out.println(jsonarray);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void saveAddressBook() throws IOException, ParseException {
+	public void saveAddressBook(String addressBookName) throws IOException, ParseException {
 		try {
 			String fileReader = addressFile;
 			JSONObject jsonobject = readFile(fileReader);
-			System.out.println("enter the name of address book :");
-			String name = scanner.next();
-			FileWriter filewriter = new FileWriter("/home/bridgelabsz/Desktop/" + name + ".json");
+			FileWriter filewriter = new FileWriter("/home/user/Desktop/" + addressBookName + ".json");
 			filewriter.write(jsonobject.toJSONString());
 			filewriter.close();
 		} catch (FileNotFoundException e) {
