@@ -9,5 +9,5 @@ public interface AddressBookDAO {
 	public void deletePerson(String firstName) throws IOException, ParseException;
 	public void editPerson(String firstName) throws IOException, ParseException;
 	public void searchEntries(String firstname) throws IOException, ParseException;
-	public void saveAddressBook() throws IOException, ParseException;
+	public void saveAddressBook(String addressBookName) throws IOException, ParseException;
 }
