@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import org.json.simple.parser.ParseException;
 
-
 public class AddressBookMain {
 	
 	AddressBookDAOImpl addressbook = new AddressBookDAOImpl();
