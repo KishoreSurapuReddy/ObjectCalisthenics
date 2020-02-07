@@ -1,3 +1,9 @@
+/**AddressBookDAOimpl class implements AddressDAO and implementing abstract methods
+ * @author kishorereddy
+ * @version 1.0
+ * @since 05-03-2020
+ * @file AddressBookDAOImpl.java
+*/
 package com.bridgelabz.addressbook;
 
 import java.io.FileNotFoundException;
@@ -21,6 +27,10 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 	Scanner scanner = new Scanner(System.in);
 	String addressFile = "/home/user/Desktop/addressbook.json";
 	
+	/**addPerson function is used to add the persion details into JSONFile
+	 * @param Person
+	 * @param firstName
+	 */
 	public void addPerson(Person person, String firstName) throws IOException, ParseException {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker().
@@ -42,7 +52,13 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 		}
 		writeDetailsToJson(jsoninstring,firstName);
 	}
-
+    
+	/**writeDetailsToJson function is used to write the person details into JSONFile
+	 * @param jsoninstring
+	 * @param firstName
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	@SuppressWarnings("unchecked")
 	private void writeDetailsToJson(String jsoninstring, String firstName) throws IOException, ParseException {
 		String fileReader = addressFile;
@@ -52,7 +68,9 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 		jsonobject.put(firstName, array);
 		writeFile(addressFile, jsonobject);
 	}
-
+    /**deletePerson function is used to delete person details from JSONFile
+     * @param String firstName
+     */
 	@Override
 	public void deletePerson(String firstName) throws IOException, ParseException {
 		String fileReader = addressFile;
@@ -61,7 +79,9 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 		String filewriter = addressFile;
 		writeFile(filewriter, jsonobject);
 	}
-
+    /**editPerson function is used to update the person details in JSONFile
+     * @param String firstName
+     */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void editPerson(String firstName) throws IOException, ParseException {
@@ -102,7 +122,10 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 			e.printStackTrace();
 		}
 	}
-
+    
+	/**searchEntries function is used to find the person details from JSONFile
+	 * @param String firstName
+	 */
 	@Override
 	public void searchEntries(String firstname) throws IOException, ParseException {
 		try {
@@ -119,7 +142,10 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 			e.printStackTrace();
 		}
 	}
-
+    
+	/**saveAddressBook function is used save the address book with used defined name
+	 * @param String addressBookName
+	 */
 	@Override
 	public void saveAddressBook(String addressBookName) throws IOException, ParseException {
 		try {
@@ -134,6 +160,12 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 		}
 	}
 	
+	/**readFile function is used to read the data from JSONFile
+	 * @param file
+	 * @return JSONObject
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	public JSONObject readFile(String file) throws IOException, ParseException {
 		JSONParser parser = new JSONParser();
 		FileReader reader = new FileReader(file);
@@ -142,6 +174,11 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 		return json;
 	}
 	
+	/**writeFile function is used to write the data into JSONFile
+	 * @param file
+	 * @param object
+	 * @throws IOException
+	 */
 	public void writeFile(String file, JSONObject object) throws IOException {
 		FileWriter filewriter = new FileWriter(file);
 		filewriter.write(object.toJSONString());
