@@ -7,7 +7,6 @@
 package com.bridgelabz.addressbook;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
@@ -26,6 +25,7 @@ import org.json.simple.parser.ParseException;
 public class AddressBookDAOImpl implements AddressBookDAO {
 	Scanner scanner = new Scanner(System.in);
 	String addressFile = "/home/user/Desktop/addressbook.json";
+	FileSystem file = new FileSystem();
 	
 	/**addPerson function is used to add the persion details into JSONFile
 	 * @param Person
@@ -62,11 +62,11 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 	@SuppressWarnings("unchecked")
 	private void writeDetailsToJson(String jsoninstring, String firstName) throws IOException, ParseException {
 		String fileReader = addressFile;
-		JSONObject jsonobject = readFile(fileReader);
+		JSONObject jsonobject = file.readFile(fileReader);
 		JSONArray array = new JSONArray();
 		array.add(jsoninstring);
 		jsonobject.put(firstName, array);
-		writeFile(addressFile, jsonobject);
+		file.writeFile(addressFile, jsonobject);
 	}
     /**deletePerson function is used to delete person details from JSONFile
      * @param String firstName
@@ -74,10 +74,10 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 	@Override
 	public void deletePerson(String firstName) throws IOException, ParseException {
 		String fileReader = addressFile;
-		JSONObject jsonobject = readFile(fileReader);
+		JSONObject jsonobject = file.readFile(fileReader);
 		jsonobject.remove(firstName);
 		String filewriter = addressFile;
-		writeFile(filewriter, jsonobject);
+		file.writeFile(filewriter, jsonobject);
 	}
     /**editPerson function is used to update the person details in JSONFile
      * @param String firstName
@@ -87,7 +87,7 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 	public void editPerson(String firstName) throws IOException, ParseException {
 		try {
 			String fileReader = addressFile;
-			JSONObject jsonobject = readFile(fileReader);
+			JSONObject jsonobject = file.readFile(fileReader);
 			if (jsonobject.get(firstName) != null) {
 				JSONArray jsonarray = (JSONArray) jsonobject.get(firstName);
 				JSONObject json = (JSONObject) new JSONParser().parse((String) jsonarray.get(0));
@@ -116,7 +116,7 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 				jsonarray.add(json);
 				jsonobject.put(firstName, jsonarray);
 				String filewriter = addressFile;
-				writeFile(filewriter, jsonobject);
+				file.writeFile(filewriter, jsonobject);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -130,7 +130,7 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 	public void searchEntries(String firstname) throws IOException, ParseException {
 		try {
 			String fileReader = addressFile;
-			JSONObject jsonobject = readFile(fileReader);
+			JSONObject jsonobject = file.readFile(fileReader);
 			JSONArray jsonarray = null;
 			try {
 				jsonarray = (JSONArray) jsonobject.get(firstname);
@@ -150,7 +150,7 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 	public void saveAddressBook(String addressBookName) throws IOException, ParseException {
 		try {
 			String fileReader = addressFile;
-			JSONObject jsonobject = readFile(fileReader);
+			JSONObject jsonobject = file.readFile(fileReader);
 			FileWriter filewriter = new FileWriter("/home/user/Desktop/" + addressBookName + ".json");
 			filewriter.write(jsonobject.toJSONString());
 			filewriter.close();
@@ -158,30 +158,5 @@ public class AddressBookDAOImpl implements AddressBookDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	/**readFile function is used to read the data from JSONFile
-	 * @param file
-	 * @return JSONObject
-	 * @throws IOException
-	 * @throws ParseException
-	 */
-	public JSONObject readFile(String file) throws IOException, ParseException {
-		JSONParser parser = new JSONParser();
-		FileReader reader = new FileReader(file);
-		Object object = parser.parse(reader);
-		JSONObject json = (JSONObject) object;
-		return json;
-	}
-	
-	/**writeFile function is used to write the data into JSONFile
-	 * @param file
-	 * @param object
-	 * @throws IOException
-	 */
-	public void writeFile(String file, JSONObject object) throws IOException {
-		FileWriter filewriter = new FileWriter(file);
-		filewriter.write(object.toJSONString());
-		filewriter.close();
 	}
 }
